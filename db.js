@@ -1,9 +1,11 @@
-import mysql from 'mysql';
+const mysql = require('mysql');
 
-export const db = mysql.createPool({
+const db = mysql.createPool({
 	host: 'localhost',
 	user: 'dbms',
 	password: '12345678',
 	database: 'DBMS_EL',
 	connectionLimit: 10,
 });
+
+module.exports = { db };
