@@ -424,21 +424,28 @@ exports.listSearch = (req, res) => {
 };
 
 exports.decreaseQuantity = (req, res, next) => {
-	let bulkOps = req.body.order.products.map((item) => {
-		return {
-			updateOne: {
-				filter: { _id: item._id },
-				update: { $inc: { quantity: -item.count, sold: +item.count } },
-			},
-		};
-	});
+	// let bulkOps = req.body.order.products.map((item) => {
+	// 	return {
+	// 		updateOne: {
+	// 			filter: { _id: item._id },
+	// 			update: { $inc: { quantity: -item.count, sold: +item.count } },
+	// 		},
+	// 	};
+	// });
+	const product = req.body.order.products[0];
+	const sql = `SELECT quantity FROM PRODUCT where prod_id=${product._id}`;
+	const [data] = pool.execute(sql);
+	console.log(data);
 
-	Product.bulkWrite(bulkOps, {}, (error, products) => {
-		if (error) {
-			return res.status(400).json({
-				error: 'Could not update product',
-			});
-		}
-		next();
-	});
+	// UPDATE `PRODUCT` SET `quantity` = '122' WHERE `PRODUCT`.`prod_id` = 16
+
+	// Product.bulkWrite(bulkOps, {}, (error, products) => {
+	// 	if (error) {
+	// 		return res.status(400).json({
+	// 			error: 'Could not update product',
+	// 		});
+	// 	}
+	// 	next();
+	// });
+	// next();
 };
