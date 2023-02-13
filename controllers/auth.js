@@ -61,12 +61,80 @@ exports.signup = (req, res) => {
 		}
 	});
 };
+exports.adminsignup = (req, res) => {
+	// console.log('req.body', req.body);
+	// req.body { name: 'Test', email: 'test@test.com', password: 'test123' }
+
+	// const user = new User(req.body);
+	// user.save((err, user) => {
+	// 	if (err) {
+	// 		return res.status(400).json({
+	// 			err: errorHandler(err),
+	// 		});
+	// 	}
+	// 	user.salt = undefined;
+	// 	user.hashed_password = undefined;
+	// 	res.json({
+	// 		user,
+	// 	});
+	// });
+
+	const q0 = 'SELECT * FROM CUSTOMER WHERE email=?';
+	db.query(q0, [req.body.email], (err, result) => {
+		if (err) res.status(500).json({ err, message: 'Regn Unsuccessful' });
+		if (result.length != 0) {
+			res.status(400).json({ err: 'Email already exists' });
+		} else {
+			const q =
+				'INSERT INTO CUSTOMER(cust_name, email, password, role) VALUES(?,?,?,?)';
+			db.query(
+				q,
+				[req.body.name, req.body.email, req.body.password, 1],
+				async (err, result) => {
+					if (err)
+						res.status(500).json({
+							err,
+							error: 'Regn Unsuccessful',
+						});
+					console.log(result.insertId);
+					// const user = await getUser(result.insertId);
+					const q2 = 'SELECT * FROM CUSTOMER WHERE cust_id=?';
+					db.query(q2, [result.insertId], (err, result) => {
+						if (err)
+							res.status(500).json({
+								err,
+								error: 'Regn Unsuccessful',
+							});
+						const { password, ...user } = result[0];
+						const q4 =
+							'INSERT INTO SELLER(seller_name, seller_user) VALUES(?, ?)';
+						db.query(
+							q4,
+							[user.cust_name, user.cust_id],
+							(err, resu) => {
+								if (err) {
+									console.log(err);
+									res.send({ error: err });
+								}
+								// console.log(res);
+								res.status(200).send({
+									user: user,
+									message: 'Registration Successful',
+								});
+							}
+						);
+					});
+				}
+			);
+		}
+	});
+};
 
 exports.signin = (req, res) => {
 	// find the user based on email
 	const { email, password } = req.body;
 
-  /*
+	/*
 	User.findOne({ email }, (err, user) => {
 		if (err || !user) {
 			return res.status(400).json({
@@ -94,8 +162,8 @@ exports.signin = (req, res) => {
 	const q = 'SELECT * FROM CUSTOMER where email=?';
 	db.query(q, [email], (error, result) => {
 		if (error) res.status(500).send(error);
-		if (result.length != 0) {
-			// console.log(result[0]);
+		if (result?.length != 0) {
+			console.log(result[0]);
 			if (result[0].password == password) {
 				const { password, ...user } = result[0];
 				// console.log(user);
@@ -148,7 +216,6 @@ exports.isAuth = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next, id) => {
-  
 	if (req.profile.role === 0) {
 		return res.status(403).json({
 			error: 'Admin resource! Access denied',

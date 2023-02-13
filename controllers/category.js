@@ -27,7 +27,7 @@ exports.categoryById = (req, res, next, id) => {
 
 exports.create = (req, res) => {
 	// console.log(req.body);
-	// { name: 'new' }
+	// // { name: 'new' }
 	// const category = new Category(req.body);
 	// category.save((err, data) => {
 	// 	if (err) {
@@ -37,7 +37,7 @@ exports.create = (req, res) => {
 	// 	}
 	// 	res.json({ data });
 	// });
-	console.log('In create function');
+	// console.log('In create function');
 	const q = 'SELECT * FROM CATEGORY where name=?';
 	db.query(q, [req.body.name], (err, result) => {
 		if (err || result.length !== 0) {
@@ -106,12 +106,18 @@ exports.remove = (req, res) => {
 };
 
 exports.list = (req, res) => {
-	Category.find().exec((err, data) => {
-		if (err) {
-			return res.status(400).json({
-				error: errorHandler(err),
-			});
-		}
-		res.json(data);
+	// Category.find().exec((err, data) => {
+	// 	if (err) {
+	// 		return res.status(400).json({
+	// 			error: errorHandler(err),
+	// 		});
+	// 	}
+	// 	res.json(data);
+	// });
+	const q = 'SELECT * FROM CATEGORY';
+	db.query(q, (err, result) => {
+		if (err) res.status(401).json({ error: err });
+		console.log(result);
+		res.json(result);
 	});
 };
