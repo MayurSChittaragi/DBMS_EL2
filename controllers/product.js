@@ -7,23 +7,52 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 const { db, pool } = require('../db.js');
 const product = require('../models/product');
 
-exports.productById = (req, res, next, id) => {
-	Product.findById(id)
-		.populate('category')
-		.exec((err, product) => {
-			if (err || !product) {
-				return res.status(400).json({
-					error: 'Product not found',
-				});
-			}
-			req.product = product;
-			next();
-		});
+exports.productById = async (req, res, next, id) => {
+	const sql = `SELECT * FROM PRODUCT WHERE prod_id=${id}`;
+	const [data] = await pool.execute(sql);
+	// if (data.length() === 0) res.status(500).json('SQL req error');
+	const prod = data[0];
+	// console.log(prod);
+	let newRes = null;
+	let category = await getCategory(prod.category_id);
+	newRes = {
+		sold: 0,
+		_id: prod.prod_id,
+		name: prod.prod_name,
+		description: prod.description,
+		price: prod.price,
+		quantity: prod.quantity,
+		category,
+		shipping: false,
+		image: prod.Images,
+	};
+	console.log(newRes, 'newRes at productId');
+	res.json(newRes);
+	next();
 };
 
-exports.read = (req, res) => {
-	req.product.photo = undefined;
-	return res.json(req.product);
+exports.read = async (req, res) => {
+	// req.product.photo = undefined;
+	// return res.json(req.product);
+	console.log(read);
+	const sql = `SELECT * FROM PRODUCT WHERE prod_id=${id}`;
+	const [data] = await pool.execute(sql);
+	const prod = data[0];
+	// console.log(prod);
+	let newRes = null;
+	let category = await getCategory(prod.category_id);
+	newRes = {
+		sold: 0,
+		_id: prod.prod_id,
+		name: prod.prod_name,
+		description: prod.description,
+		price: prod.price,
+		quantity: prod.quantity,
+		category,
+		shipping: false,
+		image: prod.Images,
+	};
+	console.log(newRes, 'newRes at read');
 };
 
 exports.create = (req, res) => {
@@ -250,7 +279,7 @@ exports.list = (req, res) => {
 					shipping: false,
 					image: prod.Images,
 				};
-				console.log(newRes, 'newRes');
+				// console.log(newRes, 'newRes');
 				return newRes;
 			})
 		);
@@ -270,25 +299,38 @@ const getCategory = async (category_id) => {
 
 //utils function
 
-/**
- * it will find the products based on the req product category
- * other products that has the same category, will be returned
- */
-
 exports.listRelated = (req, res) => {
-	let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+	const q = 'SELECT * FROM PRODUCT';
+	db.query(q, async (err, result) => {
+		if (err) {
+			console.log(err, 'sql error');
+			return res.status(400).json({ error: err, result });
+		}
 
-	Product.find({ _id: { $ne: req.product }, category: req.product.category })
-		.limit(limit)
-		.populate('category', '_id name')
-		.exec((err, products) => {
-			if (err) {
-				return res.status(400).json({
-					error: 'Products not found',
-				});
-			}
-			res.json(products);
-		});
+		const newResult = await Promise.all(
+			result.map(async (prod) => {
+				let newRes = null;
+				let category = await getCategory(prod.category_id);
+				newRes = {
+					sold: 0,
+					_id: prod.prod_id,
+					name: prod.prod_name,
+					description: prod.description,
+					price: prod.price,
+					quantity: prod.quantity,
+					category,
+					shipping: false,
+					image: prod.Images,
+				};
+				// console.log(newRes, 'newRes');
+				return newRes;
+			})
+		);
+		// newResult = [...newResult];
+
+		console.log(newResult, 'newResult');
+		res.json(newResult);
+	});
 };
 
 exports.listCategories = async (req, res) => {
@@ -305,14 +347,6 @@ exports.listCategories = async (req, res) => {
 	const [data] = await pool.execute(sql2);
 	res.json(data);
 };
-
-/**
- * list products by search
- * we will implement product search in react frontend
- * we will show categories in checkbox and price range in radio buttons
- * as the user clicks on those checkbox and radio buttons
- * we will make api request and show the products to users based on what he wants
- */
 
 exports.listBySearch = (req, res) => {
 	let order = req.body.order ? req.body.order : 'desc';
