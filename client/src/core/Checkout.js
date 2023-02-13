@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@material-ui/core/Button';
+import React, { useState, useEffect } from "react";
+import Button from "@material-ui/core/Button";
 import {
   getProducts,
   getBraintreeClientToken,
   processPayment,
   createOrder,
-} from './apiCore';
-import { emptyCart } from './cartHelpers';
-import Card from './Card';
-import { isAuthenticated } from '../auth';
-import { Link } from 'react-router-dom';
-import DropIn from 'braintree-web-drop-in-react';
+} from "./apiCore";
+import { emptyCart } from "./cartHelpers";
+import Card from "./Card";
+import { isAuthenticated } from "../auth";
+import { Link } from "react-router-dom";
+import DropIn from "braintree-web-drop-in-react";
 
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   const [data, setData] = useState({
     loading: false,
     success: false,
     clientToken: null,
-    error: '',
+    error: "",
     instance: {},
-    address: '',
+    address: "",
   });
 
   const userId = isAuthenticated() && isAuthenticated().user._id;
@@ -55,8 +55,8 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     return isAuthenticated() ? (
       <div>{showDropIn()}</div>
     ) : (
-      <Link to='/signin'>
-        <Button variant='contained' color='primary'>
+      <Link to="/signin">
+        <Button variant="contained" color="primary">
           Sign in to checkout
         </Button>
       </Link>
@@ -71,9 +71,9 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     // nonce = data.instance.requestPaymentMethod()
     let nonce;
     let getNonce = data.instance
-      .requestPaymentMethod()
+      // .requestPaymentMethod()
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         nonce = data.nonce;
         // once you have nonce (card type, card number) send nonce as 'paymentMethodNonce'
         // and also total to be charged
@@ -104,7 +104,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
               .then((response) => {
                 emptyCart(() => {
                   setRun(!run); // run useEffect in parent Cart
-                  console.log('payment success and empty cart');
+                  console.log("payment success and empty cart");
                   setData({
                     loading: false,
                     success: true,
@@ -128,16 +128,16 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   };
 
   const showDropIn = () => (
-    <div onBlur={() => setData({ ...data, error: '' })}>
+    <div onBlur={() => setData({ ...data, error: "" })}>
       {data.clientToken !== null && products.length > 0 ? (
         <div>
-          <div className='gorm-group mb-3'>
-            <label className='text-muted'>Delivery address:</label>
+          <div className="gorm-group mb-3">
+            <label className="text-muted">Delivery address:</label>
             <textarea
               onChange={handleAddress}
-              className='form-control'
+              className="form-control"
               value={data.address}
-              placeholder='Type your delivery address here...'
+              placeholder="Type your delivery address here..."
             />
           </div>
 
@@ -145,12 +145,12 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
             options={{
               authorization: data.clientToken,
               paypal: {
-                flow: 'vault',
+                flow: "vault",
               },
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
-          <button onClick={buy} className='btn btn-success btn-block'>
+          <button onClick={buy} className="btn btn-success btn-block">
             Pay
           </button>
         </div>
@@ -160,8 +160,8 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
 
   const showError = (error) => (
     <div
-      className='alert alert-danger'
-      style={{ display: error ? '' : 'none' }}
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
     >
       {error}
     </div>
@@ -169,22 +169,22 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
 
   const showSuccess = (success) => (
     <div
-      className='alert alert-info'
-      style={{ display: success ? '' : 'none' }}
+      className="alert alert-info"
+      style={{ display: success ? "" : "none" }}
     >
       Thanks! Your payment was successful!
     </div>
   );
 
   const showLoading = (loading) =>
-    loading && <h2 className='text-danger'>Loading...</h2>;
+    loading && <h2 className="text-danger">Loading...</h2>;
 
   return (
     <div>
       <h2>Total: ${getTotal()}</h2>
       {showLoading(data.loading)}
       {showSuccess(data.success)}
-      {showError(data.error)}
+      {/* {showError(data.error)} */}
       {showCheckout()}
     </div>
   );
