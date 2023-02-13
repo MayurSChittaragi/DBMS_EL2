@@ -28,13 +28,13 @@ exports.productById = async (req, res, next, id) => {
 	};
 	console.log(newRes, 'newRes at productId');
 	res.json(newRes);
-	next();
+	next(req, res, id);
 };
 
-exports.read = async (req, res) => {
+exports.read = async (req, res, id) => {
 	// req.product.photo = undefined;
 	// return res.json(req.product);
-	console.log(read);
+	console.log(id);
 	const sql = `SELECT * FROM PRODUCT WHERE prod_id=${id}`;
 	const [data] = await pool.execute(sql);
 	const prod = data[0];
