@@ -423,7 +423,7 @@ exports.listSearch = (req, res) => {
 	}
 };
 
-exports.decreaseQuantity = (req, res, next) => {
+exports.decreaseQuantity = async (req, res, next) => {
 	// let bulkOps = req.body.order.products.map((item) => {
 	// 	return {
 	// 		updateOne: {
@@ -432,10 +432,15 @@ exports.decreaseQuantity = (req, res, next) => {
 	// 		},
 	// 	};
 	// });
+	console.log(req.body.order, 'order');
 	const product = req.body.order.products[0];
-	const sql = `SELECT quantity FROM PRODUCT where prod_id=${product._id}`;
-	const [data] = pool.execute(sql);
+	console.log(product);
+	const sql = `UPDATE PRODUCT SET quantity = ${
+		product.quantity - product.count
+	} WHERE PRODUCT.prod_id = ${product._id}`;
+	const [data] = await pool.execute(sql);
 	console.log(data);
+	next();
 
 	// UPDATE `PRODUCT` SET `quantity` = '122' WHERE `PRODUCT`.`prod_id` = 16
 
