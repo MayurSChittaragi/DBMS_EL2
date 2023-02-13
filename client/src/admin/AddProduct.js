@@ -42,8 +42,8 @@ const AddProduct = () => {
 	// load categories and set form data
 	const init = () => {
 		getCategories().then((data) => {
-			if (data.error) {
-				setValues({ ...values, error: data.error });
+			if (data?.error) {
+				setValues({ ...values, error: data?.error });
 			} else {
 				setValues({
 					...values,
@@ -70,8 +70,8 @@ const AddProduct = () => {
 		setValues({ ...values, error: '', loading: true });
 
 		createProduct(user._id, token, formData).then((data) => {
-			if (data.error) {
-				setValues({ ...values, error: data.error });
+			if (data?.error) {
+				setValues({ ...values, error: data?.error });
 			} else {
 				setValues({
 					...values,

@@ -11,14 +11,14 @@ const Product = (props) => {
 	const loadSingleProduct = (productId) => {
 		read(productId).then((data) => {
 			if (data?.error) {
-				setError(data.error);
+				setError(data?.error);
 			} else {
 				setProduct(data);
 				console.log(data);
 				// fetch related products
 				// listRelated(data._id).then((data) => {
-				//   if (data.error) {
-				//     setError(data.error);
+				//   if (data?.error) {
+				//     setError(data?.error);
 				//   } else {
 				//     setRelatedProduct(data);
 				//   }

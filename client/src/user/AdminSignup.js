@@ -58,8 +58,8 @@ export default function Signup() {
 		event.preventDefault(); // so that browser does not reload
 		setValues({ ...values, error: false });
 		adminsignup({ name, email, password }).then((data) => {
-			if (data.error) {
-				setValues({ ...values, error: data.error, success: false });
+			if (data?.error) {
+				setValues({ ...values, error: data?.error, success: false });
 			} else {
 				setValues({
 					...values,

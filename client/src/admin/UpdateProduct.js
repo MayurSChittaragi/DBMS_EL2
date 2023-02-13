@@ -40,8 +40,8 @@ const UpdateProduct = ({ match }) => {
 
 	const init = (productId) => {
 		getProduct(productId).then((data) => {
-			if (data.error) {
-				setValues({ ...values, error: data.error });
+			if (data?.error) {
+				setValues({ ...values, error: data?.error });
 			} else {
 				// populate the state
 				setValues({
@@ -63,8 +63,8 @@ const UpdateProduct = ({ match }) => {
 	// load categories and set form data
 	const initCategories = () => {
 		getCategories().then((data) => {
-			if (data.error) {
-				setValues({ ...values, error: data.error });
+			if (data?.error) {
+				setValues({ ...values, error: data?.error });
 			} else {
 				setCategories(data);
 			}
@@ -88,8 +88,8 @@ const UpdateProduct = ({ match }) => {
 
 		updateProduct(match.params.productId, user._id, token, formData).then(
 			(data) => {
-				if (data.error) {
-					setValues({ ...values, error: data.error });
+				if (data?.error) {
+					setValues({ ...values, error: data?.error });
 				} else {
 					setValues({
 						...values,

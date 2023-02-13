@@ -34,7 +34,7 @@ const Routes = () => {
         <AdminRoute path='/create/product' component={AddProduct} exact />
         <Route path='/product/:productId' component={Product} exact />
         <Route path='/cart' component={Cart} exact />
-        <AdminRoute path='/admin/orders' component={Orders} exact />
+        <Route path='/admin/orders' component={Orders} exact />
         <PrivateRoute path='/profile/:userId' component={Profile} exact />
         <AdminRoute path='/admin/products' component={ManageProducts} exact />
         <AdminRoute

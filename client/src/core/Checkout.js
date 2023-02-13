@@ -27,9 +27,9 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
 
 	const getToken = (userId, token) => {
 		getBraintreeClientToken(userId, token).then((data) => {
-			if (data.error) {
-				console.log(data.error);
-				setData({ ...data, error: data.error });
+			if (data?.error) {
+				console.log(data?.error);
+				setData({ ...data, error: data?.error });
 			} else {
 				console.log(data);
 				setData({ clientToken: data.clientToken });
@@ -241,7 +241,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
 			<h2>Total: ${getTotal()}</h2>
 			{showLoading(data.loading)}
 			{showSuccess(data.success)}
-			{/* {showError(data.error)} */}
+			{/* {showError(data?.error)} */}
 			{showCheckout()}
 		</div>
 	);

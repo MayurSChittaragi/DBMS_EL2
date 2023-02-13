@@ -85,7 +85,7 @@ exports.listOrders = async (req, res) => {
 			const [prod] = await pool.execute(
 				`SELECT * FROM PRODUCT WHERE prod_id=${order.prod_id}`
 			);
-			let newRes = {
+			let newRes = [{
 				// sold: 0,
 				_id: prod[0].prod_id,
 				name: prod[0].prod_name,
@@ -96,15 +96,15 @@ exports.listOrders = async (req, res) => {
 				// shipping: false,
 				// image: prod.Images,
 				count: order.count,
-			};
+			}];
 			const [users] = await pool.execute(
 				`SELECT * FROM CUSTOMER WHERE cust_id=${order.customer_id}`
 			);
 
-			let currUser = {
+			let currUser = [{
 				name: users[0].cust_name,
 				_id: users[0].cust_id,
-			};
+			}];
 
 			console.log(users, 'users');
 

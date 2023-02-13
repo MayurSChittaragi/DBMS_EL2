@@ -11,8 +11,8 @@ const ManageProducts = () => {
 
 	const loadProducts = () => {
 		getProducts().then((data) => {
-			if (data.error) {
-				console.log(data.error);
+			if (data?.error) {
+				console.log(data?.error);
 			} else {
 				setProducts(data);
 			}
@@ -21,8 +21,8 @@ const ManageProducts = () => {
 
 	const destroy = (productId) => {
 		deleteProduct(productId, user._id, token).then((data) => {
-			if (data.error) {
-				console.log(data.error);
+			if (data?.error) {
+				console.log(data?.error);
 			} else {
 				loadProducts();
 			}
