@@ -42,7 +42,7 @@ const Home = () => {
       description="MERN E-commerce App"
       className="container-fluid"
     >
-      {/* <Search /> */}
+      {/* <SearcSh /> */}
       <div className="row">
         <div className="col-md-1"></div>
         <div className="col-md-10">
