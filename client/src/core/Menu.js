@@ -265,7 +265,7 @@ const MaterialAppBar = ({ history }) => {
           </a>
           <a href="/" style={{ color: "#ffffff", textDecoration: "none" }}>
             <Typography className={classes.title} variant="h6" noWrap>
-              BRAND
+              SQL-Kart
             </Typography>
           </a>
 
@@ -285,12 +285,12 @@ const MaterialAppBar = ({ history }) => {
               </a>
             </IconButton>
 
-            <Link style={isActive(history, "/shop")} to="/shop">
+            {/* <Link style={isActive(history, "/shop")} to="/shop">
               <IconButton aria-label="Shop" color="inherit">
                 <StorefrontIcon />
                 <Typography noWrap>Shop</Typography>
               </IconButton>
-            </Link>
+            </Link> */}
 
             <Link style={isActive(history, "/cart")} to="/cart">
               <IconButton aria-label="Cart" color="inherit">

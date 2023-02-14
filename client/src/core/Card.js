@@ -225,7 +225,8 @@ const Card = ({
 							<br></br>
 							<span>
 								{showViewButton(showViewProductButton)}
-								{showAddToCartBtn(showAddToCartButton)}
+								{product.quantity > 0 &&
+									showAddToCartBtn(showAddToCartButton)}
 								{showRemoveButton(showRemoveProductButton)}
 							</span>
 							{showCartUpdateOptions(cartUpdate)}
