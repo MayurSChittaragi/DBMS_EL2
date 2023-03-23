@@ -85,12 +85,12 @@ const Dashboard = () => {
 												<h6>
 													Product price: ${p.price}
 												</h6>
-												<h6>
+												{/* <h6>
 													Purchased date:{' '}
 													{moment(
 														p.createdAt
 													).fromNow()}
-												</h6>
+												</h6> */}
 											</div>
 										);
 									})}
@@ -113,7 +113,7 @@ const Dashboard = () => {
 				<div className='col-md-3'>{userLinks()}</div>
 				<div className='col-md-9'>
 					{userInfo()}
-					{purchaseHistory(history)}
+					{/* {purchaseHistory(history)} */}
 				</div>
 			</div>
 		</Layout>
