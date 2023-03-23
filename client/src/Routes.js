@@ -19,6 +19,8 @@ import ManageProducts from './admin/ManageProducts';
 import UpdateProduct from './admin/UpdateProduct';
 import NotFound from './core/NotFound';
 
+
+
 const Routes = () => {
   return (
     <BrowserRouter>
@@ -37,8 +39,9 @@ const Routes = () => {
         <Route path='/admin/orders' component={Orders} exact />
         <PrivateRoute path='/profile/:userId' component={Profile} exact />
         <AdminRoute path='/admin/products' component={ManageProducts} exact />
+
         <AdminRoute
-          path='/admin/product/update/:productId'
+          path="/admin/product/update/:productId"
           component={UpdateProduct}
           exact
         />
