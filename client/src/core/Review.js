@@ -17,7 +17,7 @@ const ProductReviews = (props) => {
 		console.log(props);
 		setNewReview({
 			...newReview,
-			user: signedIn.user._id,
+			user: signedIn?.user?._id,
 			prodId: props.productId,
 		});
 

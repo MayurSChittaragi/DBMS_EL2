@@ -92,14 +92,14 @@ const AdminDashboard = () => {
 							<BarChart
 								width={1100}
 								height={400}
-								data={data}
+								data={finalData}
 								margin={{
 									top: 10,
 									right: 5,
 									left: 5,
 									bottom: 5,
 								}}
-								barSize={20}
+								barSize={30}
 							>
 								<XAxis
 									dataKey='day'

@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Layout from "../core/Layout";
-import { isAuthenticated } from "../auth";
-import { Link } from "react-router-dom";
-import { listOrders, getStatusValues, updateOrderStatus } from "./apiAdmin";
-import moment from "moment";
+import React, { useState, useEffect } from 'react';
+import Layout from '../core/Layout';
+import { isAuthenticated } from '../auth';
+import { Link } from 'react-router-dom';
+import { listOrders, getStatusValues, updateOrderStatus } from './apiAdmin';
+import moment from 'moment';
 
 const Orders = () => {
 	const [orders, setOrders] = useState([]);
 	const [statusValues, setStatusValues] = useState([]);
 	const { user, token } = isAuthenticated();
-
 
 	const loadOrders = () => {
 		listOrders(user._id, token).then((data) => {
@@ -21,7 +20,6 @@ const Orders = () => {
 			}
 		});
 	};
-
 
 	const loadStatusValues = () => {
 		getStatusValues(user._id, token).then((data) => {
@@ -37,7 +35,6 @@ const Orders = () => {
 		loadOrders();
 		loadStatusValues();
 	}, []);
-
 
 	const showOrdersLength = () => {
 		if (orders.length > 0) {
@@ -119,7 +116,7 @@ const Orders = () => {
 
 								<ul className='list-group mb-2'>
 									<li className='list-group-item'>
-										{showStatus(o)}
+										{/* {showStatus(o)} */}
 									</li>
 									<li className='list-group-item'>
 										Transaction ID: {o.transaction_id}
@@ -127,16 +124,16 @@ const Orders = () => {
 									<li className='list-group-item'>
 										Amount: ${o.amount}
 									</li>
-									<li className='list-group-item'>
+									{/* <li className='list-group-item'>
 										Ordered by: {o.user.name}
-									</li>
-									<li className='list-group-item'>
+									</li> */}
+									{/* <li className='list-group-item'>
 										Ordered on:{' '}
 										{moment(o.createdAt).fromNow()}
-									</li>
-									<li className='list-group-item'>
+									</li> */}
+									{/* <li className='list-group-item'>
 										Delivery address: {o.address}
-									</li>
+									</li> */}
 								</ul>
 
 								<h3 className='mt-4 mb-4 font-italic'>
