@@ -6,6 +6,7 @@ const Product = require('../models/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const { db, pool } = require('../db.js');
 const product = require('../models/product');
+const { userById } = require('./user');
 
 exports.productById = async (req, res, next, id) => {
 	const sql = `SELECT * FROM PRODUCT WHERE prod_id=${id}`;
@@ -331,6 +332,35 @@ exports.listRelated = (req, res) => {
 		console.log(newResult, 'newResult');
 		res.json(newResult);
 	});
+};
+
+exports.getReviews = async (req, res) => {
+	console.log(req.params, 'parameters');
+	const sql = `SELECT * FROM REVIEW WHERE prod_id=${req.params.prodId}`;
+	const [data] = await pool.execute(sql);
+	const reviews = await Promise.all(
+		data.map(async (review) => {
+			const q2 = `SELECT * FROM CUSTOMER WHERE cust_id=${review.cust_id}`;
+			const [userdata] = await pool.execute(q2);
+			// console.log(userdata);
+			review = {
+				...review,
+				user: userdata[0].cust_name,
+			};
+			// console.log(review);
+			return review;
+		})
+	);
+	console.log(reviews);
+	res.json(reviews);
+};
+
+exports.addReview = async (req, res) => {
+	const { user, comment, prodId } = req.body.review;
+	console.log(req.body.review);
+	const sql = `INSERT INTO REVIEW (cust_id, prod_id, feedback) VALUES (${user}, ${prodId}, '${comment}')`;
+	const [data] = await pool.execute(sql);
+	res.json(data);
 };
 
 exports.listCategories = async (req, res) => {
