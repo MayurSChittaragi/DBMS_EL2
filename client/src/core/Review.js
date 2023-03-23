@@ -65,29 +65,46 @@ const ProductReviews = (props) => {
   };
 
   return (
-    <div>
-      <h4>Product Reviews</h4>
+    <div style={{ marginLeft: "10em", marginTop: "1em" }}>
+      <h4 style={{ fontSize: "2rem" }}>Product Reviews</h4>
+      <br />
       {reviews.map((review) => (
         <div key={review.cust_id * 10 + review.prod_id}>
-          <h5>{review.user}:</h5>
-          <p>{review.feedback}</p>
+          <p style={{ fontSize: "1rem", fontWeight: "normal" }}>
+            {review.user}:
+          </p>
+          <p style={{ fontSize: "1rem", fontWeight: "lighter" }}>
+            {review.feedback}
+          </p>
         </div>
       ))}
       {signedIn && (
         <>
-          <h5 style={{ color: "red" }}>Add a review:</h5>
+          <h5 style={{}}>Add a review:</h5>
           <form>
-            <br />
-            <br />
-            <label>
-              Comment:
+            {/* <br /> */}
+            {/* <br /> */}
+            <label style={{ display: "flex", flexDirection: "column" }}>
               <textarea
                 value={newReview.comment}
                 onChange={handleCommentInput}
+                style={{
+                  width: "13rem",
+                  borderRadius: "5px",
+                }}
               />
             </label>
             <br />
-            <button type="button" onClick={handleAddReview}>
+            <button
+              type="button"
+              onClick={handleAddReview}
+              style={{
+                borderColor: "red",
+                width: "13em",
+                backgroundColor: "white",
+                borderRadius: "5px",
+              }}
+            >
               Add Review
             </button>
           </form>

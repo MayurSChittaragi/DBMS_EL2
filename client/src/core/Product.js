@@ -45,7 +45,7 @@ const Product = (props) => {
         <div className="col-md-2"></div>
         <div className="col-md-4 col-sm-12">
           <>
-            <h4>Product Details</h4>
+            <h4 style={{ fontSize: "2rem" }}>Product Details</h4>
             {product && product.description && (
               <div>
                 <Card product={product} showViewProductButton={false} />
