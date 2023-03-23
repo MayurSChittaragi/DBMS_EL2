@@ -1,35 +1,35 @@
-import React, { Fragment } from 'react';
-import { Link, withRouter, forceUpdate } from 'react-router-dom';
-import { signout, isAuthenticated } from '../auth';
-import { itemTotal } from './cartHelpers';
+import React, { Fragment } from "react";
+import { Link, withRouter, forceUpdate } from "react-router-dom";
+import { signout, isAuthenticated } from "../auth";
+import { itemTotal } from "./cartHelpers";
 
-import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import { fade, makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import InputBase from "@material-ui/core/InputBase";
+import Badge from "@material-ui/core/Badge";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
+import MoreIcon from "@material-ui/icons/MoreVert";
 
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Button from '@material-ui/core/Button';
-import HomeIcon from '@material-ui/icons/Home';
-import StorefrontIcon from '@material-ui/icons/Storefront';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import StoreIcon from '@material-ui/icons/Store';
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Button from "@material-ui/core/Button";
+import HomeIcon from "@material-ui/icons/Home";
+import StorefrontIcon from "@material-ui/icons/Storefront";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import StoreIcon from "@material-ui/icons/Store";
 
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
-    return { color: '#ff9900', textDecoration: 'none' };
+    return { color: "#ff9900", textDecoration: "none" };
   } else {
-    return { color: '#ffffff', textDecoration: 'none' };
+    return { color: "#ffffff", textDecoration: "none" };
   }
 };
 
@@ -41,57 +41,57 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
     },
   },
   search: {
-    position: 'relative',
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
+    "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      width: "auto",
     },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputRoot: {
-    color: 'inherit',
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
   sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
     },
   },
   sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
   },
 }));
@@ -121,14 +121,14 @@ const MaterialAppBar = ({ history }) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
@@ -137,21 +137,21 @@ const MaterialAppBar = ({ history }) => {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <div style={{ backgroundColor: '#404040' }}>
+      <div style={{ backgroundColor: "#404040" }}>
         <MenuItem>
-          <Link style={isActive(history, '/')} to='/'>
-            <IconButton aria-label='Home' color='inherit'>
+          <Link style={isActive(history, "/")} to="/">
+            <IconButton aria-label="Home" color="inherit">
               <HomeIcon />
             </IconButton>
             Home
@@ -159,8 +159,8 @@ const MaterialAppBar = ({ history }) => {
         </MenuItem>
 
         <MenuItem>
-          <Link style={isActive(history, '/shop')} to='/shop'>
-            <IconButton aria-label='Shop' color='inherit'>
+          <Link style={isActive(history, "/shop")} to="/shop">
+            <IconButton aria-label="Shop" color="inherit">
               <StorefrontIcon />
             </IconButton>
             Shop
@@ -168,9 +168,9 @@ const MaterialAppBar = ({ history }) => {
         </MenuItem>
 
         <MenuItem>
-          <Link style={isActive(history, '/cart')} to='/cart'>
-            <IconButton aria-label='Cart' color='inherit'>
-              <Badge badgeContent={itemTotal()} color='secondary'>
+          <Link style={isActive(history, "/cart")} to="/cart">
+            <IconButton aria-label="Cart" color="inherit">
+              <Badge badgeContent={itemTotal()} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
@@ -181,10 +181,10 @@ const MaterialAppBar = ({ history }) => {
         {isAuthenticated() && isAuthenticated().user.role === 0 && (
           <MenuItem>
             <Link
-              style={isActive(history, '/user/dashboard')}
-              to='/user/dashboard'
+              style={isActive(history, "/user/dashboard")}
+              to="/user/dashboard"
             >
-              <IconButton aria-label='Dashboard' color='inherit'>
+              <IconButton aria-label="Dashboard" color="inherit">
                 <DashboardIcon />
               </IconButton>
               Dashboard
@@ -195,10 +195,10 @@ const MaterialAppBar = ({ history }) => {
         {isAuthenticated() && isAuthenticated().user.role === 1 && (
           <MenuItem>
             <Link
-              style={isActive(history, '/admin/dashboard')}
-              to='/admin/dashboard'
+              style={isActive(history, "/admin/dashboard")}
+              to="/admin/dashboard"
             >
-              <IconButton aria-label='Dashboard' color='inherit'>
+              <IconButton aria-label="Dashboard" color="inherit">
                 <DashboardIcon />
               </IconButton>
               Dashboard
@@ -209,8 +209,8 @@ const MaterialAppBar = ({ history }) => {
         {!isAuthenticated() && (
           <Fragment>
             <MenuItem>
-              <Link style={isActive(history, '/signin')} to='/signin'>
-                <IconButton aria-label='Signin' color='inherit'>
+              <Link style={isActive(history, "/signin")} to="/signin">
+                <IconButton aria-label="Signin" color="inherit">
                   <AccountCircleIcon />
                 </IconButton>
                 Signin
@@ -218,8 +218,8 @@ const MaterialAppBar = ({ history }) => {
             </MenuItem>
 
             <MenuItem>
-              <Link style={isActive(history, '/signup')} to='/signup'>
-                <IconButton aria-label='Signup' color='inherit'>
+              <Link style={isActive(history, "/signup")} to="/signup">
+                <IconButton aria-label="Signup" color="inherit">
                   <PersonAddIcon />
                 </IconButton>
                 Signup
@@ -231,14 +231,14 @@ const MaterialAppBar = ({ history }) => {
         {isAuthenticated() && (
           <MenuItem>
             <span
-              style={{ cursor: 'pointer', color: '#ffffff' }}
+              style={{ cursor: "pointer", color: "#ffffff" }}
               onClick={() =>
                 signout(() => {
-                  history.push('/');
+                  history.push("/");
                 })
               }
             >
-              <IconButton aria-label='Signout' color='inherit'>
+              <IconButton aria-label="Signout" color="inherit">
                 <ExitToAppIcon />
               </IconButton>
               Signout
@@ -251,43 +251,50 @@ const MaterialAppBar = ({ history }) => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position='fixed'>
+      <AppBar position="fixed">
         <Toolbar>
-          <a href='/' style={{ color: '#ffffff' }}>
+          <a href="/" style={{ color: "#ffffff" }}>
             <IconButton
-              edge='start'
+              edge="start"
               className={classes.menuButton}
-              color='inherit'
-              aria-label='brand'
+              color="inherit"
+              aria-label="brand"
             >
               <StoreIcon />
             </IconButton>
           </a>
-          <a href='/' style={{ color: '#ffffff', textDecoration: 'none' }}>
-            <Typography className={classes.title} variant='h6' noWrap>
-              BRAND
+          <a href="/" style={{ color: "#ffffff", textDecoration: "none" }}>
+            <Typography className={classes.title} variant="h6" noWrap>
+              SQL-Kart
             </Typography>
           </a>
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Link style={isActive(history, '/')} to='/'>
-              <IconButton aria-label='Home' color='inherit'>
+            <Link style={isActive(history, "/")} to="/">
+              <IconButton aria-label="Home" color="inherit">
                 <HomeIcon />
                 <Typography noWrap>Home</Typography>
               </IconButton>
             </Link>
+            <IconButton aria-label="Shop" color="inherit">
+              <a href="http://localhost:3001/" target="_blank">
+                <Typography noWrap className="text-white">
+                  Chat
+                </Typography>
+              </a>
+            </IconButton>
 
-            <Link style={isActive(history, '/shop')} to='/shop'>
-              <IconButton aria-label='Shop' color='inherit'>
+            {/* <Link style={isActive(history, "/shop")} to="/shop">
+              <IconButton aria-label="Shop" color="inherit">
                 <StorefrontIcon />
                 <Typography noWrap>Shop</Typography>
               </IconButton>
-            </Link>
+            </Link> */}
 
-            <Link style={isActive(history, '/cart')} to='/cart'>
-              <IconButton aria-label='Cart' color='inherit'>
-                <Badge badgeContent={itemTotal()} color='secondary'>
+            <Link style={isActive(history, "/cart")} to="/cart">
+              <IconButton aria-label="Cart" color="inherit">
+                <Badge badgeContent={itemTotal()} color="secondary">
                   <ShoppingCartIcon />
                 </Badge>
                 <Typography noWrap>Cart</Typography>
@@ -296,10 +303,10 @@ const MaterialAppBar = ({ history }) => {
 
             {isAuthenticated() && isAuthenticated().user.role === 0 && (
               <Link
-                style={isActive(history, '/user/dashboard')}
-                to='/user/dashboard'
+                style={isActive(history, "/user/dashboard")}
+                to="/user/dashboard"
               >
-                <IconButton aria-label='Dashboard' color='inherit'>
+                <IconButton aria-label="Dashboard" color="inherit">
                   <DashboardIcon />
                   <Typography noWrap>Dashboard</Typography>
                 </IconButton>
@@ -308,10 +315,10 @@ const MaterialAppBar = ({ history }) => {
 
             {isAuthenticated() && isAuthenticated().user.role === 1 && (
               <Link
-                style={isActive(history, '/admin/dashboard')}
-                to='/admin/dashboard'
+                style={isActive(history, "/admin/dashboard")}
+                to="/admin/dashboard"
               >
-                <IconButton aria-label='Dashboard' color='inherit'>
+                <IconButton aria-label="Dashboard" color="inherit">
                   <DashboardIcon />
                   <Typography noWrap>Dashboard</Typography>
                 </IconButton>
@@ -320,15 +327,15 @@ const MaterialAppBar = ({ history }) => {
 
             {!isAuthenticated() && (
               <Fragment>
-                <Link style={isActive(history, '/signin')} to='/signin'>
-                  <IconButton aria-label='Signin' color='inherit'>
+                <Link style={isActive(history, "/signin")} to="/signin">
+                  <IconButton aria-label="Signin" color="inherit">
                     <AccountCircleIcon />
                     <Typography noWrap>Signin</Typography>
                   </IconButton>
                 </Link>
 
-                <Link style={isActive(history, '/signup')} to='/signup'>
-                  <IconButton aria-label='Signup' color='inherit'>
+                <Link style={isActive(history, "/signup")} to="/signup">
+                  <IconButton aria-label="Signup" color="inherit">
                     <PersonAddIcon />
                     <Typography noWrap>Signup</Typography>
                   </IconButton>
@@ -338,14 +345,14 @@ const MaterialAppBar = ({ history }) => {
 
             {isAuthenticated() && (
               <span
-                style={{ cursor: 'pointer', color: '#ffffff' }}
+                style={{ cursor: "pointer", color: "#ffffff" }}
                 onClick={() =>
                   signout(() => {
-                    history.push('/');
+                    history.push("/");
                   })
                 }
               >
-                <IconButton aria-label='Signout' color='inherit'>
+                <IconButton aria-label="Signout" color="inherit">
                   <ExitToAppIcon />
                   <Typography noWrap>Signout</Typography>
                 </IconButton>
@@ -354,11 +361,11 @@ const MaterialAppBar = ({ history }) => {
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
-              aria-label='show more'
+              aria-label="show more"
               aria-controls={mobileMenuId}
-              aria-haspopup='true'
+              aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color='inherit'
+              color="inherit"
             >
               <MoreIcon />
             </IconButton>

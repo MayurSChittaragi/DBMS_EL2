@@ -15,14 +15,14 @@ const { decreaseQuantity } = require('../controllers/product');
 
 router.post(
   '/order/create/:userId',
-  requireSignin,
-  isAuth,
-  addOrderToUserHistory,
+  // requireSignin,
+  // isAuth,
+  // addOrderToUserHistory,
   decreaseQuantity,
   create
 );
 
-router.get('/order/list/:userId', requireSignin, isAuth, isAdmin, listOrders);
+router.get('/order/list/:userId', listOrders);
 
 router.get(
   '/order/status-values/:userId',
